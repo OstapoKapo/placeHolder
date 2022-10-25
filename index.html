@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <!--Lato 700-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lato:wght@900&display=swap" rel="stylesheet">
+
+<!--Lato 700-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js" integrity="sha512-aVKKRRi/Q/YV+4mjoKBsE4x3H+BkegoM/em46NNlCqNTmUYADjBbeNefNxYV7giUp0VxICtqdrbqU7iVaeZNXA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <title>Document</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        .wrap{
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+        .wrap__header{
+            font-family: 'Lato';
+            font-size: 40px;
+            color: #000
+        }
+        .wrap__inputGroup{
+            width: 60%;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 20px;
+
+        }
+        .wrap__inputGroup__inp{
+            width: 200px;
+            height: 30px;
+            background-color: #fff;
+            border-radius: 5px;
+            border: 1px solid #999;
+            padding-left: 10px;
+            color: #555;
+        }
+        .wrap__inputGroup__inp_first{
+            margin-right: 20px;
+        }
+        .btn{
+            width: 110px;
+            height: 50px;
+            margin-top: 10px;
+            background-color: blue;
+            border-radius: 6px;
+            color: #fff;
+            display: flex;
+            align-items: center;
+           justify-content: center;
+
+            font-family: 'Lato';
+            font-size: 20px;
+        }
+        .avatar{
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background-color: #999;
+            margin-top: 20px;
+            border: 1px solid #333;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Lato';
+            font-size: 20px;
+            color: #000;
+            overflow: hidden;
+            display: none;
+            background-size: cover;
+        }
+        .avatar__inp{
+            width: 100%;
+            height: 100%;
+           opacity: 0;
+           cursor: pointer;
+        }
+        .avatar__p{
+            position: fixed;
+            font-family: 'Lato';
+            font-size: 20px;
+            color: #000;
+        }
+        .fulname{
+            font-family: 'Lato';
+            font-size: 30px;
+            color: #000;margin-top: 10px;
+            display: none;
+        }
+        .cancel{
+            width: 50px;
+            position: relative;
+            top: -53%;
+            left: 45%;
+            height: 50px;
+            background-image: url(cancel.png);
+            background-size: cover;
+            transition: 0.5s;
+            cursor: pointer;
+            display: none;
+
+        }
+        .cancel:hover{
+            transition: 0.5s;
+            transform: rotate(360deg);
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="wrap" id="wrap">
+
+        <div class="wrap__header" id="wrap__header">Generate Your Placeholder</div>
+        <div class="avatar" id="avatar">
+            <input  accept="image/*"  type="file" class="avatar__inp" id="avatar__inp">
+            <div class="avatar__p" id="avatar__p"></div>
+          
+        </div>
+        <div class="fulname" id="fulname"></div>
+        <div class="wrap__inputGroup" id="wrap__inputGroup">
+            <input type="text" placeholder="your name" class="wrap__inputGroup__inp wrap__inputGroup__inp_first" id="inpName" >
+            <input type="text" placeholder="your surname" class="wrap__inputGroup__inp" id="inpSurname">
+           
+        </div>
+        <div class="btn" id="btn">Generate</div>
+        <div class="cancel" id="cancel"></div>
+    </div>
+
+    <script>
+              const chooseFile = document.getElementById("avatar__inp");
+            const imgPreview = document.getElementById("avatar");
+
+        let LocalColor = generatePlaceholder('ss','ds').avaColor
+
+        let pageFlex = localStorage.getItem('pageFlex') || 'flex'
+
+         let pageNone = localStorage.getItem('pageNone') || 'none'
+
+         let avaColor = localStorage.getItem('avaColor') || LocalColor
+
+         let avaName = localStorage.getItem('avaName') || ''
+
+         let underAva = localStorage.getItem('underAva') || ''
+         
+         let textFlex = localStorage.getItem('textFlex') || 'none'
+         
+         let mainText= localStorage.getItem('mainText') || 'Your Accaunt'
+
+         let image= localStorage.getItem('image') ||  ''
+        
+         avatar.style.backgroundColor = avaColor
+         wrap__inputGroup.style.display = pageFlex
+         btn.style.display = pageFlex
+         avatar.style.display = pageNone
+         cancel.style.display = pageNone
+         avatar__p.innerText = avaName
+         fulname.innerText = underAva;
+         fulname.style.display = textFlex;
+         wrap__header.innerText = mainText
+         $('#avatar').css('background-image',`url(${image})`);
+
+        $('.btn').click(function(){
+
+         if(inpName.value && inpSurname.value){
+            localStorage.setItem('mainText','Your Accaunt')
+            mainText = 'Your Accaunt'
+            wrap__header.innerText = mainText;
+            
+            localStorage.setItem('avaColor',LocalColor)
+            avaColor = LocalColor
+            avatar.style.backgroundColor = avaColor
+
+            localStorage.setItem('avaName',generatePlaceholder(inpName.value,inpSurname.value).avaName)
+            avaName = generatePlaceholder(inpName.value,inpSurname.value).avaName
+            avatar__p.innerText = avaName
+
+            localStorage.setItem('pageFlex', 'none')
+            localStorage.setItem('pageNone', 'flex')
+            pageFlex = 'none'
+            pageNone = 'flex'
+            btn.style.display = pageFlex
+            wrap__inputGroup.style.display = pageFlex
+            avatar.style.display = pageNone
+            cancel.style.display = pageNone
+ 
+         localStorage.setItem('underAva',inpName.value+' '+inpSurname.value)
+            underAva = inpName.value+' '+inpSurname.value
+            fulname.innerText = underAva;}else{
+                alert('Ведіть інформацію')
+            }
+        })
+
+        $('.cancel').click(function(){
+            inpName.value = ''
+            inpSurname.value = ''
+
+            localStorage.setItem('mainText','Generate Your Placeholder')
+            mainText = 'Generate Your Placeholder'
+            wrap__header.innerText = mainText;
+        
+            localStorage.setItem('image','') 
+      image = ''
+      $('#avatar').css('background-image',`url(${image})`);
+
+            $('.wrap__inputGroup').css('display','flex')
+            $('.btn').css('display','flex')
+            $('.avatar').css('display','none')
+            $('.cancel').css('display','none')
+            fulname.innerText = ''
+
+            localStorage.setItem('pageFlex', 'flex')
+            localStorage.setItem('pageNone', 'none')
+            pageFlex = 'flex'
+            pageNone = 'none'
+            wrap__inputGroup.style.display = pageFlex
+            btn.style.display = pageFlex
+            avatar.style.display = pageNone
+            cancel.style.display = pageNone
+         
+            localStorage.setItem('textFlex', 'none')               
+            pageFlex = 'none'
+            fulname.style.display = textFlex
+
+            localStorage.setItem('underAva','')
+            underAva =  ''
+            fulname.innerText = underAva;
+            fulname.style.display = pageNone
+        })
+        
+       
+            chooseFile.addEventListener("change", function () {
+  getImgData();
+  
+  localStorage.setItem('avaName','')
+            avaName = '';
+            avatar__p.innerText = avaName
+            
+            localStorage.setItem('textFlex', 'flex')               
+            textFlex = 'flex'
+            fulname.style.display = textFlex
+});
+        
+            // let Path  = avatar__inp.value
+            // let fileName = Path.substring(Path.lastIndexOf('\\')+1, Path.length);
+            // $('.avatar').css('background-image',`url(${fileName})`)  
+            // console.log(fileName)
+           
+function getImgData() {
+  const files = chooseFile.files[0];
+  if (files) {
+    const fileReader = new FileReader();
+    fileReader.readAsDataURL(files);
+    fileReader.addEventListener("load", function () {
+      localStorage.setItem('image',this.result) 
+      image = this.result
+      $('#avatar').css('background-image',`url(${image})`);
+    });    
+  }
+}
+           
+         
+            function generatePlaceholder (name,surname){
+            let sum = name[0].toUpperCase() +  surname[0].toUpperCase();
+            let randomBgc = '#' + (Math.floor(Math.random() * 16777217)).toString(16);  
+            return obj = {
+                avaName: sum,
+                avaColor:randomBgc
+            };
+                   
+        }
+        generatePlaceholder('Ostap','Prodaniuk')
+    </script>
+</body>
+</html>
